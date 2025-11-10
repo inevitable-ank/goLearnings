@@ -7,8 +7,8 @@ func ChangeValueByaddress(ptr *int) {
 }
 
 func main() {
-	var num int;
-	num = 42
+	// var num int;
+	num := 42
 	fmt.Println("Value of num:", num)
 
 	numPtr := &num
