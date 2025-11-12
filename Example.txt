@@ -1,0 +1,2 @@
+Hello, this is an example of file handling in Go.
+This file demonstrates creating, writing, and closing a file using Go.
