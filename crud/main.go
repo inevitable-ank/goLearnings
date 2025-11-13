@@ -119,10 +119,33 @@ func putRequest() {
 
 }
 
+func deleteRequest() {
+	// to be implemented
+
+	req, err := http.NewRequest(http.MethodDelete, "https://jsonplaceholder.typicode.com/todos/1", nil)
+	if err != nil {
+		fmt.Println("Error creating DELETE request:", err)
+		return
+	}
+
+	client := &http.Client{}
+	res, err := client.Do(req)	
+	if err != nil {
+		fmt.Println("Error making DELETE request:", err)
+		return
+	}
+	defer res.Body.Close()
+
+	fmt.Println("Response Status Code:", res.StatusCode)
+	ioData, _ := io.ReadAll(res.Body)	
+	fmt.Println("Response Body:", string(ioData))
+}
+
 func main() {
 	fmt.Println("Learning crud")
 	// getRequest()
 	// postRequest()
-	putRequest()
+	// putRequest()
+	deleteRequest()
 
 }
