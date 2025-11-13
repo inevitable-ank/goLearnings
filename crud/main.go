@@ -65,12 +65,13 @@ func postRequest() {
 	jsonReader := strings.NewReader(jsonString)
 
 	res, err := http.Post("https://jsonplaceholder.typicode.com/todos", "application/json", jsonReader)
-
-	defer res.Body.Close()
 	if err != nil {
-		fmt.Println("Error making POST request:", err)
+		fmt.Println("Error marshalling JSON:", err)
 		return
 	}
+
+	defer res.Body.Close()
+	
 	fmt.Println("Response Status Code:", res.StatusCode)
 	ioData, err := io.ReadAll(res.Body)
 	if err != nil {
@@ -113,7 +114,7 @@ func putRequest() {
 	defer res.Body.Close()
 
 	fmt.Println("Response Status Code:", res.StatusCode)
-	ioData, err := io.ReadAll(res.Body)	
+	ioData, _ := io.ReadAll(res.Body)	
 	fmt.Println("Response Body:", string(ioData))
 
 
