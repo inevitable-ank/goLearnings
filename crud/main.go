@@ -80,9 +80,49 @@ func postRequest() {
 	fmt.Println("Response Body:", string(ioData))
 }
 
+func putRequest() {
+	// to be implemented
+	todo := Todo{
+		UserID:    11234567890,
+		Title:     "Learn Go Language - Updated",
+		Completed: true,
+	}
+
+	jsonData, err := json.Marshal(todo)
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return
+	}
+	jsonString := string(jsonData)
+
+	jsonReader := strings.NewReader(jsonString)
+
+	req, err := http.NewRequest(http.MethodPut, "https://jsonplaceholder.typicode.com/todos/1", jsonReader)
+	if err != nil {
+		fmt.Println("Error creating PUT request:", err)
+		return
+	}
+	req.Header.Set("Content-Type", "application/json")
+
+	client := &http.Client{}
+	res, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error making PUT request:", err)
+		return
+	}
+	defer res.Body.Close()
+
+	fmt.Println("Response Status Code:", res.StatusCode)
+	ioData, err := io.ReadAll(res.Body)	
+	fmt.Println("Response Body:", string(ioData))
+
+
+}
+
 func main() {
 	fmt.Println("Learning crud")
 	// getRequest()
-	postRequest()
+	// postRequest()
+	putRequest()
 
 }
