@@ -3,7 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"strings"
 )
 
 type Todo struct {
@@ -13,8 +15,7 @@ type Todo struct {
 	Completed bool   `json:"completed"`
 }
 
-func main() {
-	fmt.Println("Learning crud")
+func getRequest() {
 	res, err := http.Get("https://jsonplaceholder.typicode.com/todos/1")
 	if err != nil {
 		fmt.Println("Error fetching data:", err)
@@ -43,4 +44,45 @@ func main() {
 
 	fmt.Println("completed Response:- ", todo.Completed)
 	fmt.Println("Title Response:- ", todo.Title)
+}
+
+func postRequest() {
+	// to be implemented
+	todo := Todo{
+		UserID:    1,
+		Title:     "Learn Go Language",
+		Completed: false,
+	}
+
+	jsonData, err := json.Marshal(todo)
+	if err != nil {
+		fmt.Println("Error marshalling JSON:", err)
+		return
+	}
+
+	jsonString := string(jsonData)
+
+	jsonReader := strings.NewReader(jsonString)
+
+	res, err := http.Post("https://jsonplaceholder.typicode.com/todos", "application/json", jsonReader)
+
+	defer res.Body.Close()
+	if err != nil {
+		fmt.Println("Error making POST request:", err)
+		return
+	}
+	fmt.Println("Response Status Code:", res.StatusCode)
+	ioData, err := io.ReadAll(res.Body)
+	if err != nil {
+		fmt.Println("Error reading response body:", err)
+		return
+	}
+	fmt.Println("Response Body:", string(ioData))
+}
+
+func main() {
+	fmt.Println("Learning crud")
+	// getRequest()
+	postRequest()
+
 }
